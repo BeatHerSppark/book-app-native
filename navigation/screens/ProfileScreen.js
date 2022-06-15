@@ -1,12 +1,16 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View, Text, Button } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AuthContext } from "../context/AuthContext";
 
 const ProfileScreen = () => {
+  const { userData, isLoading, logout } = useContext(AuthContext);
   return (
     <SafeAreaView style={styles.container}>
-      <Text>ProfileScreen</Text>
-      <Text>ProfileScreen</Text>
+      <Spinner visible={isLoading} />
+      <Text>User: {`${userData.result.name}`}</Text>
+      <Button title="Logout" color="red" onPress={logout} />
     </SafeAreaView>
   );
 };
@@ -17,7 +21,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
 });
 

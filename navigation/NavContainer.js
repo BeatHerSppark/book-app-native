@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,6 +11,8 @@ import CommunityScreen from "./screens/CommunityScreen";
 import LibraryScreen from "./screens/LibraryScreen";
 import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
+import { AuthContext } from "./context/AuthContext";
+import SplashScreen from "./screens/SplashScreen";
 
 const homeName = "Home";
 const libraryName = "Library";
@@ -18,16 +20,25 @@ const communityName = "Community";
 const profileName = "Profile";
 const loginName = "Login";
 const signupName = "Signup";
+const splashName = "Splash";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const isSignedIn = false;
-
 const NavContainer = () => {
+  const { userData, splashLoading } = useContext(AuthContext);
+
   return (
     <NavigationContainer>
-      {isSignedIn ? (
+      {splashLoading ? (
+        <Stack.Navigator>
+          <Stack.Screen
+            name={splashName}
+            component={SplashScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      ) : userData.token ? (
         <Tab.Navigator
           initialRouteName={homeName}
           screenOptions={({ route }) => ({
